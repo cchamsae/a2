@@ -1,0 +1,75 @@
+NullPointer = -1
+
+class Node:
+    def __init__(self):
+        self.Data = " "
+        self.Pointer = NullPointer
+
+def InitialiseStack():
+    Stack = [Node() for i in range (8)]
+    TopOfStack = NullPointer
+    FreeListPtr = 0
+
+    for Index in range(7):
+        Stack[Index].Pointer = Index + 1
+        Stack[7].Pointer = NullPointer
+
+    return(Stack, TopOfStack, FreeListPtr)
+
+def Push(Stack, TopOfStack, FreeListPtr, NewItem):
+    if FreeListPtr != NullPointer:
+        NewNodePtr = FreeListPtr
+        Stack[NewNodePtr].Data = NewItem
+        Stack[NewNodePtr] = TopOfStack
+        TopOfStack = NewNodePtr
+    else:
+        print("No more space for data")
+    return(Stack, TopOfStack, FreeListPtr)
+
+def Pop(Stack, TopOfStack, FreeListPtr):
+    if TopOfStack == NullPointer:
+        print("No data in stack")
+        Value = " "
+    else:
+        Value = Stack[TopOfStack].Data
+        ThisNodePtr = TopOfStack
+        TopOfStack = Stack[TopOfStack].Pointer
+        Stack[ThisNodePtr].Pointer = FreeListPtr
+        FreeListPtr = ThisNodePtr
+    return(Stack, TopOfStack, FreeListPtr, Value)
+
+def OutputAllNodes(Stack, TopOfStack):
+    CurrentNodePtr = TopOfStack
+    if TopOfStack == NullPointer:
+        print("No data in stack")
+    while CurrentNodePtr != NullPointer:
+        print(CurrentNodePtr, " ", Stack[CurrentNodePtr].Data)
+        CurrentNodePtr = Stack[CurrentNodePtr].Pointer
+
+def GetOption():
+    print("1: push a value")
+    print("2: pop a value")
+    print("3: output stack")
+    print("4: end program")
+    option = input("enter your choice: ")
+    return(option)
+
+Stack, TopOfStack, FreeListPtr = InitialiseStack()
+Option = GetOption()
+
+while Option != "4":
+    if Option == "1":
+        Data = input("enter the value: ")
+        Stack, TopOfStack, FreeListPtr = Push(Stack, TopOfStack, FreeListPtr, Data)
+        OutputAllNodes(Stack, TopOfStack)
+    elif Option == "2":
+        Stack, TopOfStack, FreeListPtr, Value = Pop(Stack, TopOfStack, FreeListPtr)
+        print("data popped: ", Value)
+        OutputAllNodes(Stack, TopOfStack)
+    elif Option == "3":
+        OutputAllNodes(Stack, TopOfStack)
+        print(TopOfStack, FreeListPtr)
+        for i in range(8):
+            print(i, " ",Stack[i].Data, " ", Stack[i].Pointer)
+
+    Option = GetOption()
