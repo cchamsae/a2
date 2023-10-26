@@ -1,0 +1,83 @@
+#private attributes (the double underscore after self.)
+class student:
+    def __init__(self, name, dateOfBirth, examMark):
+        self.__name = name
+        self.__dateOfBirth = dateOfBirth
+        self.__examMark = examMark
+    def displayExamMark(self):
+        print("Exam mark: ", self.__examMark)
+
+myStudent = student("Sarah", "17 Dec 2004", 88)
+myStudent.displayExamMark()
+
+#inheritance (derived classes) - s23/43_q2
+class student:
+    def __init__(self, name, dateOfBirth, examMark):
+        self.__name = name
+        self.__dateOfBirth = dateOfBirth
+        self.__examMark = examMark
+    def displayExamMark(self):
+        print("Exam mark: ", self.__examMark)
+
+class fullTimeStudent(student):
+    def __init__(self, name, dateOfBirth, examMark):
+        student.__init__(self, name, dateOfBirth, examMark)
+        self.__partTimeStudent = False
+
+class partTimeStudent(student):
+    def __init__(self, name, dateOfBirth, examMark):
+        student.__init__(self, name, dateOfBirth, examMark)
+        self.__partTimeStudent = True
+
+permanentStudent = fullTimeStudent("Theo", "29 May 1999", 97)
+permanentStudent.displayExamMark()
+temporatyStudent = partTimeStudent("Kim", "4 July 2000", 76)
+temporatyStudent.displayExamMark()
+
+#polymorphism (the ability of a variable, function or object to take on multiple forms)
+#created when one class is created that extends another one
+#for eg: considering a class Animal, Cat is a subclass. this means ANY cat is an animal.
+#here, a Cat satisfies the IS-A relationship for its own type, Cat, as well as its super class, Animal, making it polymorphic
+class shape:
+    def __init__(self):
+        self.__areaValue = 0
+    def area(self):
+        print("area is: ", self.__areaValue)
+
+class circle(shape):
+    def __init__(self, radius):
+        shape.__init__(self)
+        self.__radius = radius
+    def area(self):
+        self.__areaValue = 3.14 * self.__radius * self.__radius
+        print("area is: ", self.__areaValue)
+
+class rectangle(shape):
+    def __init__(self, length, breadth):
+        shape.__init__(self)
+        self.__length = length
+        self.__breadth = breadth
+    def area(self):
+        self.__areaValue = self.__breadth * self.__length
+        print("area is: ", self.__areaValue)
+
+myCircle = circle(4)
+myCircle.area()
+myRectangle = rectangle(2,4)
+myRectangle.area()
+
+#overloading
+class greeting:
+    def hello(self, firstName = None, lastName = None):
+        if firstName is not None:
+            if lastName is not None:
+                print("Hello " + firstName + " " + lastName)
+            else:
+                print("Hello " + firstName)
+        else:
+            print("Hello")
+
+myGreeting = greeting()
+myGreeting.hello()
+myGreeting.hello("Ryan")
+myGreeting.hello("Ryan", "Gosling")
