@@ -1,0 +1,82 @@
+EmptyString = ""
+NullPointer = -1
+MaxQueueSize = 8
+
+def InitialiseQueue():
+    Queue = [EmptyString for i in range(MaxQueueSize)]
+    FrontOfQueue = NullPointer
+    EndOfQueue = NullPointer
+    NumberInQueue = 0
+    return (Queue, FrontOfQueue, EndOfQueue, NumberInQueue)
+
+def AddToQueue(Queue, FrontOfQueue, EndOfQueue, NumberInQueue, NewItem):
+    if NumberInQueue == 0:
+        FrontOfQueue = 0
+    if NumberInQueue < MaxQueueSize:     #check for wrap around
+        EndOfQueue += 1
+
+        if EndOfQueue > MaxQueueSize - 1:                
+            EndOfQueue = 0
+
+        Queue[EndOfQueue] = NewItem
+        NumberInQueue += 1
+    else:
+        print("No more space for data")
+
+    return (Queue, FrontOfQueue, EndOfQueue, NumberInQueue)
+
+def RemoveFromQueue(Queue, FrontOfQueue, EndOfQueue, NumberInQueue):
+    Item = EmptyString
+    if NumberInQueue > 0:
+        Item = Queue[FrontOfQueue]
+        NumberInQueue -= 1
+        if NumberInQueue == 0:
+            FrontOfQueue = NullPointer
+            EndOfQueue = NullPointer
+        else:
+            FrontOfQueue += 1
+            if FrontOfQueue > MaxQueueSize - 1:
+                FrontOfQueue = 0
+    else:
+        print("Queue is empty")
+
+    return (Queue, FrontOfQueue, EndOfQueue, NumberInQueue, Item)
+
+def OutputQueue(Queue, FrontOfQueue, NumberInQueue):
+    CurrentItem = FrontOfQueue
+    if NumberInQueue == 0:
+        print("No data in queue")
+    else:
+        for Count in range(NumberInQueue):
+            print(CurrentItem, " ", Queue[CurrentItem])
+            CurrentItem += 1
+            if CurrentItem > MaxQueueSize - 1:
+                CurrentItem = 0
+
+def GetOption():
+    print("1: join queue")
+    print("2: leave queue")
+    print("3: output queue")
+    print("4: end program")
+    Option = input("enter your choice: ")
+    return (Option)
+
+Queue, FrontOfQueue, EndOfQueue, NumberInQueue = InitialiseQueue()
+Option = GetOption()
+
+while Option != "4":
+    if Option == "1":
+        Data = input("enter the value: ")
+        Queue, FrontOfQueue, EndOfQueue, NumberInQueue = AddToQueue(Queue, FrontOfQueue, EndOfQueue, NumberInQueue, Data)
+        OutputQueue(Queue, FrontOfQueue, NumberInQueue)
+    elif Option == "2":
+        Queue, FrontOfQueue, EndOfQueue, NumberInQueue, Item = RemoveFromQueue(Queue, FrontOfQueue, EndOfQueue, NumberInQueue)
+        print("data leaving queue: ", Item)
+        OutputQueue(Queue, FrontOfQueue, NumberInQueue)
+    elif Option == "3":
+        OutputQueue(Queue, FrontOfQueue, NumberInQueue)
+        print(FrontOfQueue, EndOfQueue, NumberInQueue)
+        for i in range(MaxQueueSize):
+            print(i, " ", Queue[i])
+
+    Option = GetOption()
