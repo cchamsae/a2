@@ -1,0 +1,13 @@
+myDict = {
+    "name" : "xian",
+    "age" : 18
+}
+
+print(myDict)
+print(myDict["name"])
+
+myDict1 = dict(name = "xian", age = 18)
+print(myDict1)
+print(myDict1['name'])
+
+print(len(myDict))
